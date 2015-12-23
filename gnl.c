@@ -1,4 +1,5 @@
 #include "get_next_line.h"
+#include <stdio.h>
 
 int	get_next_line(int const fd, char **line)
 {
@@ -8,7 +9,10 @@ int	get_next_line(int const fd, char **line)
 	char		*str;
 	char		*save;
 
-	while (!ft_strchr(stock, '\n'))	
+	ft_putstr("stock : ");
+	ft_putendl(stock);
+	ret = 1;
+	while (!ft_strchr(stock, '\n') && ret)	
 	{
 		new = (char*)ft_memalloc(ft_strlen(stock) + BUFF_SIZE + 1);
 		if (stock)
@@ -17,18 +21,22 @@ int	get_next_line(int const fd, char **line)
 		while (*new)
 			new++;
 		ret = read(fd, new, BUFF_SIZE);
-		ft_strdel(&stock);
 		stock = save;
+		ft_putendl("ici");
 	}
-	if (stock)
+	if (stock && ret)
 	{
-		if ((ret = (int)(ft_strchr(stock, '\n') - ft_strlen(stock))))
+		if ((ret = (int)(ft_strchr(stock, '\n') - stock)))
 		{
 			*line = (char*)ft_memalloc(ret + 1);
 			*line = ft_strncpy(*line, stock, ret);
-			*line[ret] = '\0';
-			stock = stock + ret;
+			stock = stock + ret + 1;
 			return (1);
+		}
+		else
+		{
+			*line = ft_strdup("");
+			return (0);
 		}
 	}
 	return (0);
