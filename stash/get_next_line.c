@@ -18,6 +18,8 @@ int	get_next_line(int const fd, char **line)
 		while (*new)
 			new++;
 		ret = read(fd, new, BUF_SIZE);
+		if (ret < 1)
+			return (ret);
 		stock = save;
 	}
 	if (stock && ret)
