@@ -84,17 +84,15 @@ int	fill_line(char **line, char **stock, int ret)
 
 int	get_next_line(int fd, char **line)
 {
-	static t_stock	*stock;
+	static t_stock	stock;
 	char		*strstock;
 	int		ret;
 	int		lec;
 	int		i;
-
-	if (stock == NULL)
-		stock = (t_stock*)ft_memalloc(sizeof(t_stock));
-	check_fd(fd, stock, &strstock, &i);
+	
+	check_fd(fd, &stock, &strstock, &i);
 	ret = fill_stock(fd, &strstock, &lec);
 	ret = fill_line(line, &strstock, ret);
-	ft_strcpy((char*)(stock->stock[i]), strstock);	
+	ft_strcpy((char*)(stock.stock[i]), strstock);	
 	return (0);
 }

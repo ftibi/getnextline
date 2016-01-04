@@ -9,8 +9,7 @@ int	get_next_line(int const fd, char **line);
 typedef struct		s_stock
 {
 	int	fd[FD_SIZE];
-	char	stock[FD_SIZE][BUF_SIZE];
-	int	fin;
+	char	str[FD_SIZE][BUF_SIZE];
 }			t_stock;
 
 #endif
