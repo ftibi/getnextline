@@ -1,62 +1,37 @@
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.c                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/01/05 14:34:52 by tfolly            #+#    #+#             */
+/*   Updated: 2016/01/05 15:57:26 by tfolly           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
 #include "get_next_line.h"
 
-
-int	check_fd(const int fd, t_stock *stock)
+static int		check_fd(const int fd, t_stock *stock)
 {
-	int	i;
-
-	i = 0;
-	while (stock->fd[i] != fd && i < FD_SIZE)
-		i++;
-	if (i == FD_SIZE)
+	if (!stock) // creer nouvelle chaine
 	{
-		i = 0;
-		while (stock->fd[i] != 0)
-			i++;
+		if (!stock = (t_stock*)malloc(sizeof(t_stock)))
+			return (-1);
+		stock->fd = fd;
+		return (stock->str);
 	}
-	return (i); //il faudrait ajouter un retour -1 si tous les fd sont utilises
-}
-
-int	bufcpy(char **line, char **tmp)
-{
-	int	n;
-	int	i;
-	char	*save;
-	char	*addr;
-
-	n = (int)(ft_strchr(*tmp, '\n') - *tmp);
-	*line = ft_strndup(*tmp, n);
-	save = *tmp;
-	*tmp += n;
-	i = 0;
-	while (i < n) //repenser la maniere de mettre a jour tmp car ca c pas correct
+	while (stock->fd != fd && stock->next)
+		stock = stock->next;
+	if (stock->fd == fd)
+		return (stock->str);
+	else //creer un nvx maillon
 	{
-		addr = save + i;
-		ft_memdel((void**)&addr);
-		i++;
-		
+
 	}
-	return (1);
 }
 
-int	fill_tmp()
+int				get_next_line(int const fd, char **line)
 {
-
-	return (1);
-}
-
-int	get_next_line(int const fd, char **line) //penser a verifier que stock str est bien init a 0
-{
-	t_stock		*stock;
-	char		*tmp;
-	int		i;
-
-	i = check_fd(fd, stock);
-	tmp = ft_strndup(stock->str[i], BUF_SIZE);
-	if (!(ft_strchr(tmp, '\n') || ft_strchr(tmp, '\n')))
-		fill_tmp();
-	bufcpy(line, &tmp);
-	ft_strcpy(stock->str[i], tmp);
-	ft_memdel((void**)&tmp);
-	return (1);
+	return ();
 }
