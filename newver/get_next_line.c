@@ -6,7 +6,7 @@
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 14:34:52 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/05 18:19:55 by tfolly           ###   ########.fr       */
+/*   Updated: 2016/01/05 19:37:51 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ static t_stock		*check_fd(const int fd, t_stock *stock)
 	ft_putendl("appel de check_fd");
 	if (!stock)
 	{
+		ft_putendl("nvlle liste chainee");
 		if (!(stock = (t_stock*)malloc(sizeof(t_stock))))
 			return (NULL);
 		stock->fd = fd;
@@ -27,10 +28,12 @@ static t_stock		*check_fd(const int fd, t_stock *stock)
 		stock = stock->next;
 	if (stock->fd == fd)
 	{
+		ft_putendl("fd trouve");
 		return (stock);
 	}
 	else
 	{
+		ft_putendl("nouveau fd");
 		if (!(stock->next = (t_stock*)malloc(sizeof(t_stock))))
 			return (NULL);
 		stock = stock->next;
@@ -103,20 +106,25 @@ int				get_next_line(int const fd, char **line)
 {
 	static t_stock	*stock;
 	int				status;
-	t_stock			*tmp;
 
-	if (!(tmp = check_fd(fd, stock)))
-		return (-1);
-	if (!(ft_strchr(tmp->str, '\n') || ft_strchr(tmp->str, -1)))
+	ft_putendl("appel GNL");
+	if (stock)
 	{
-		status = fill_tmp(tmp);
+		ft_putstr("stock->str : ");
+		ft_putendl(stock->str);
+	}
+	if (!(stock = check_fd(fd, stock)))
+		return (-1);
+	if (!(ft_strchr(stock->str, '\n') || ft_strchr(stock->str, -1)))
+	{
+		status = fill_tmp(stock);
 	}
 	ft_putstr("stock->str : ");
-	ft_putendl(tmp->str);
-	bufcpy(line, tmp);
+	ft_putendl(stock->str);
+	bufcpy(line, stock);
 	// il faut mettre a jour str dans la liste chainee
 	// penser au cas ou on a copier plsr \n
 	return (1);
 }
-
 //manipuler chaine de char meilleur que manip stock directement car pas dupdate!!!
+//sinon je dois passer laddresse de stock plutot que stock (je le fais deja ?)
