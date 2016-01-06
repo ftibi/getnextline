@@ -6,7 +6,7 @@
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 14:34:52 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/05 19:37:51 by tfolly           ###   ########.fr       */
+/*   Updated: 2016/01/06 14:43:07 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,13 @@ static int		bufcpy(char **line, t_stock *stock)
 	char	*addr;
 	char	*tmp;
 
+	if (!*stock->str) // cette ligne est a repenser pour les conditions darret
+		return (0);
 	tmp = stock->str;
-	n = (int)(ft_strchr(tmp, '\n') - *tmp);
+	n = (int)(ft_strchr(tmp, '\n') - tmp);
+	ft_putstr("n : ");
+	ft_putnbr(n);
+	ft_putchar('\n');
 	*line = ft_strndup(tmp, n);
 	save = tmp;
 	tmp += n;
@@ -61,10 +66,12 @@ static int		bufcpy(char **line, t_stock *stock)
 	while (i < n) //repenser la maniere de mettre a jour tmp car ca c pas correct
 	{
 		addr = save + i;
-		ft_memdel((void**)&addr);
+		//if (addr)
+		//	ft_memdel((void**)&addr);
 		i++;
 		
 	}
+	stock->str = save + i + 1;
 	return (1);
 }
 
@@ -92,8 +99,10 @@ static int		fill_tmp(t_stock *stock)
 		tmp = (char*)ft_memalloc(ft_strlen(tmp) + BUF_SIZE);
 		tmp = ft_strcpy(tmp, save);
 		tmp = ft_strcat(tmp, (const char*)buf);
-		ft_memdel((void**)&save);
-		ft_putendl(tmp);
+		//if (save)
+		//	ft_memdel((void**)&save);
+		stock->str = tmp;
+		ft_putendl(stock->str);
 	}
 	if (nbr == -1)
 		return (-1);
@@ -104,7 +113,7 @@ static int		fill_tmp(t_stock *stock)
 
 int				get_next_line(int const fd, char **line)
 {
-	static t_stock	*stock;
+	static t_stock	*stock; // penser a travailler avec une adresse de pointeur
 	int				status;
 
 	ft_putendl("appel GNL");
