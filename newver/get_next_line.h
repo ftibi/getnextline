@@ -10,6 +10,7 @@ typedef struct			s_stock
 {
 	char				*str;
 	int					fd;
+	int					over;
 	struct s_stock		*next;
 }						t_stock;
 
