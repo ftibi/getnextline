@@ -9,7 +9,7 @@ typedef struct			s_stock
 {
 	char				*str;
 	int					fd;
-	int					status;
+	int					over;
 	struct s_stock		*next;
 }						t_stock;
 

@@ -6,21 +6,23 @@
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 14:34:52 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/07 15:16:25 by tfolly           ###   ########.fr       */
+/*   Updated: 2016/01/07 16:32:42 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "get_next_line.h"
 
-static t_stock		*check_fd(const int fd, t_stock *stock)
+static t_stock		*check_fd(const int fd, t_stock *stock, t_stock **save)
 {
+	//ft_putendl("checkfd");
 	if (!stock)
 	{
 		if (!(stock = (t_stock*)malloc(sizeof(t_stock))))
 			return (NULL);
 		stock->fd = fd;
 		stock->str = ft_strdup("");
-		stock->over = 0;
+		stock->status = 1;
+		*save = stock;
 		return (stock);
 	}
 	while ((stock->fd != fd) && stock->next)
@@ -34,13 +36,14 @@ static t_stock		*check_fd(const int fd, t_stock *stock)
 		stock = stock->next;
 		stock->fd = fd;
 		stock->str = ft_strdup("");
-		stock->over = 0;
+		stock->status = 1;
 		return (stock);
 	}
 }
 
 static int		bufcpy(char **line, t_stock *stock)
 {
+	//ft_putendl("buffcpy");
 	int		n;
 	int		i;
 	char	*save;
@@ -54,6 +57,11 @@ static int		bufcpy(char **line, t_stock *stock)
 	}
 	tmp = stock->str;
 	n = (int)(ft_strchr(tmp, '\n') - tmp);
+	ft_putnbr(n);
+	ft_putendl("");
+	n = ((unsigned int)n > (unsigned int)ft_strlen(tmp) + 1) ? ft_strlen(tmp) : n;
+	ft_putnbr(n);
+	ft_putendl("");
 	*line = ft_strndup(tmp, n);
 	save = tmp;
 	tmp += n;
@@ -72,6 +80,7 @@ static int		bufcpy(char **line, t_stock *stock)
 
 static int		fill_tmp(t_stock *stock)
 {
+	//ft_putendl("filltmp");
 	char	*tmp;
 	char	buf[BUF_SIZE];
 	int		nbr;
@@ -80,15 +89,19 @@ static int		fill_tmp(t_stock *stock)
 
 	nbr = BUF_SIZE;
 	i = 0;
-	while (i < BUF_SIZE)
-	{
-		buf[i] = 0;
-		i++;
-	}
+//	while (i < BUF_SIZE) //est ce que buff est donnee vide
+//	{
+//		buf[i] = 0;
+//		i++;
+//	}
 	tmp = stock->str;
 	while (!(ft_strchr(buf, '\n') || ft_strchr(buf, -1) || nbr == 0) && nbr == BUF_SIZE)
 	{
 		nbr = read(stock->fd, buf, BUF_SIZE);
+		if (nbr < BUF_SIZE)
+			stock->status = 0;
+		if (nbr == -1)
+			return (nbr);
 		save = tmp;
 		tmp = (char*)ft_memalloc(ft_strlen(tmp) + BUF_SIZE);
 		tmp = ft_strcpy(tmp, save);
@@ -106,18 +119,24 @@ static int		fill_tmp(t_stock *stock)
 
 int				get_next_line(int const fd, char **line)
 {
-	static t_stock	*stock; // penser a travailler avec une adresse de pointeur
-	int				status;
-
-	status = 1;
-	if (!(stock = check_fd(fd, stock)))
+	//ft_putendl("gnl");
+	t_stock			*stock; // penser a travailler avec une adresse de pointeur
+	static t_stock	*save;
+	
+	if (!line)
 		return (-1);
-	if (!(ft_strchr(stock->str, '\n') || ft_strchr(stock->str, -1)))
-		status = fill_tmp(stock);
-	if (status != 1)
-		return (status);
+	if (!save)
+		save = (t_stock*)ft_memalloc(sizeof(t_stock));
+	stock = save;
+	if (!(stock = check_fd(fd, stock, &save)))
+		return (-1);
+	if (!(ft_strchr(stock->str, '\n') || ft_strchr(stock->str, -1)) && stock->status == 1)
+		stock->status = fill_tmp(stock);
+	//ft_putendl(stock->str);
+	if (stock->status != 1)
+		return (stock->status);
 	bufcpy(line, stock);
 	// il faut mettre a jour str dans la liste chainee
 	// penser au cas ou on a copier plsr \n
-	return (1);
+	return (stock->status);
 }
