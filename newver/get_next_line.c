@@ -6,7 +6,7 @@
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 14:34:52 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/07 18:20:49 by tfolly           ###   ########.fr       */
+/*   Updated: 2016/01/07 18:27:06 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 static t_stock		*check_fd(const int fd, t_stock *stock, t_stock **save)
 {
-	//ft_putendl("checkfd");
 	if (!stock)
 	{
 		if (!(stock = (t_stock*)malloc(sizeof(t_stock))))
@@ -41,9 +40,8 @@ static t_stock		*check_fd(const int fd, t_stock *stock, t_stock **save)
 	}
 }
 
-static int		bufcpy(char **line, t_stock *stock) //revoir tte cette fonction c ici quil y a des bugs
+static int		bufcpy(char **line, t_stock *stock)
 {
-	//ft_putendl("buffcpy");
 	int		n;
 	int		i;
 	char	*save;
