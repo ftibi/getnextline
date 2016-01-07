@@ -6,7 +6,7 @@
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 14:34:52 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/07 18:27:06 by tfolly           ###   ########.fr       */
+/*   Updated: 2016/01/07 19:56:37 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,23 +14,31 @@
 
 static t_stock		*check_fd(const int fd, t_stock *stock, t_stock **save)
 {
+//	ft_putendl("checkfd");
 	if (!stock)
 	{
+//		ft_putendl("!stock");
 		if (!(stock = (t_stock*)malloc(sizeof(t_stock))))
 			return (NULL);
 		stock->fd = fd;
 		stock->str = ft_strdup("");
 		stock->status = 1;
 		*save = stock;
+//		ft_putendl("end checkfd");
 		return (stock);
 	}
+//	ft_putendl("stock");
 	while ((stock->fd != fd) && stock->next)
 		stock = stock->next;
 	if (stock->fd == fd)
+	{	
+//		ft_putendl("fd found");
 		return (stock);
+	}
 	else
 	{
-		if (!(stock->next = (t_stock*)malloc(sizeof(t_stock))))
+//		ft_putendl("else");
+		if (!(stock->next = (t_stock*)ft_memalloc(sizeof(t_stock))))
 			return (NULL);
 		stock = stock->next;
 		stock->fd = fd;
@@ -42,6 +50,7 @@ static t_stock		*check_fd(const int fd, t_stock *stock, t_stock **save)
 
 static int		bufcpy(char **line, t_stock *stock)
 {
+//	ft_putendl("bufcpy");
 	int		n;
 	int		i;
 	char	*save;
@@ -82,18 +91,18 @@ static int		bufcpy(char **line, t_stock *stock)
 
 static int		fill_tmp(t_stock *stock)
 {
-	//ft_putendl("filltmp");
+//	ft_putendl("filltmp");
 	char	*tmp;
 	char	buf[BUF_SIZE];
 	int		nbr;
 	char	*save;
 	int		i;
 
-	if (stock->status == 0)
-		return (0);
+	//if (stock->status == 0)
+	//	return (0);
 	nbr = BUF_SIZE;
 	i = 0;
-	while (i < BUF_SIZE) //est ce que buff est donnee vide // utiliser memdel a la place
+	while (i < BUF_SIZE) //est ce que buff est donnee vide // utiliser memset a la place
 	{
 		buf[i] = 0;
 		i++;
@@ -101,7 +110,7 @@ static int		fill_tmp(t_stock *stock)
 	tmp = stock->str;
 	while ((!ft_strchr(tmp, '\n') || nbr == 0) && nbr == BUF_SIZE)
 	{
-		//ft_putendl("while filltmp");
+//		ft_putendl("while filltmp");
 		nbr = read(stock->fd, buf, BUF_SIZE);
 		if (nbr < BUF_SIZE)
 			stock->status = 0;
@@ -127,20 +136,23 @@ static int		fill_tmp(t_stock *stock)
 
 int				get_next_line(int const fd, char **line)
 {
-	//ft_putendl("gnl");
+//	ft_putendl("gnl");
 	t_stock			*stock; // penser a travailler avec une adresse de pointeur
 	static t_stock	*save;
 	
 	if (!line)
 		return (-1);
-	if (!save)
-		save = (t_stock*)ft_memalloc(sizeof(t_stock));
-	if (!save)
-		return (-1);
+//	if (!save)
+//		save = (t_stock*)ft_memalloc(sizeof(t_stock));
+//	if (!save)
+//		return (-1);
 	stock = save;
 	if (!(stock = check_fd(fd, stock, &save)))
 		return (-1);
-	if (!(ft_strchr(stock->str, '\n')))// && stock->status == 1)
+//	ft_putendl("avant");
+	ft_strchr(stock->str, '\n');
+//	ft_putendl("apres");
+	if (!(ft_strchr(stock->str, '\n'))) // && stock->status == 1)
 		stock->status = fill_tmp(stock);
 	//ft_putendl(stock->str);
 	if (stock->status == -1)
@@ -148,5 +160,7 @@ int				get_next_line(int const fd, char **line)
 	bufcpy(line, stock);
 	// il faut mettre a jour str dans la liste chainee
 	// penser au cas ou on a copier plsr \n
+	if (fd == 0)
+		stock->status = 0;
 	return (stock->status);
 }
