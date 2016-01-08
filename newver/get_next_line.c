@@ -6,7 +6,7 @@
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 14:34:52 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/07 19:56:37 by tfolly           ###   ########.fr       */
+/*   Updated: 2016/01/08 12:51:40 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,7 @@ static t_stock		*check_fd(const int fd, t_stock *stock, t_stock **save)
 		stock->fd = fd;
 		stock->str = ft_strdup("");
 		stock->status = 1;
+		stock->next = NULL;
 		*save = stock;
 //		ft_putendl("end checkfd");
 		return (stock);
@@ -44,17 +45,47 @@ static t_stock		*check_fd(const int fd, t_stock *stock, t_stock **save)
 		stock->fd = fd;
 		stock->str = ft_strdup("");
 		stock->status = 1;
+		stock->next = NULL;
 		return (stock);
 	}
 }
 
-static int		bufcpy(char **line, t_stock *stock)
+static int		delstock(int fd, t_stock *stock)
+{
+	t_stock	*save;
+
+	if (!stock)
+		return (0);
+//	ft_putendl("delstock");
+	save = stock;
+	while (stock && stock->next)
+	{
+//		ft_putendl("while delstock");
+		if (stock->fd == fd)
+		{
+			save->next = stock->next;
+//			ft_putendl("del delstock");
+			ft_memdel((void**)&(stock->str));
+			ft_memdel((void**)&stock);
+			stock = save->next;
+		}
+		else
+		{
+			save = stock;
+			stock = stock->next;
+		}
+//		ft_putendl("end delstock");
+	}
+	return (1);
+}
+
+static int		bufcpy(char **line, t_stock *stock, t_stock *stock_save)
 {
 //	ft_putendl("bufcpy");
 	int		n;
-	int		i;
+//	int		i;
 	char	*save;
-	char	*addr;
+//	char	*addr;
 	char	*tmp;
 
 	if (!stock->str) // cette ligne est a repenser pour les conditions darret
@@ -74,16 +105,9 @@ static int		bufcpy(char **line, t_stock *stock)
 	*line = ft_strndup(tmp, n);
 	save = tmp;
 	tmp += n;
-	i = 0;
-	while (i < n) //repenser la maniere de mettre a jour tmp car ca c pas correct
-	{
-		addr = save + i;
-		//if (addr)
-		//	ft_memdel((void**)&addr);
-		i++;
-		
-	}
 	stock->str = tmp + 1;
+	if (!ft_strcmp(stock->str, ft_strdup("")))
+		delstock(stock->fd, stock_save);
 //	ft_putstr("stock : ");
 //	ft_putendl(stock->str);
 	return (1);
@@ -102,15 +126,16 @@ static int		fill_tmp(t_stock *stock)
 	//	return (0);
 	nbr = BUF_SIZE;
 	i = 0;
-	while (i < BUF_SIZE) //est ce que buff est donnee vide // utiliser memset a la place
-	{
-		buf[i] = 0;
-		i++;
-	}
+//	while (i < BUF_SIZE) //est ce que buff est donnee vide // utiliser memset a la place
+//	{
+//		buf[i] = 0;
+//		i++;
+//	}
 	tmp = stock->str;
 	while ((!ft_strchr(tmp, '\n') || nbr == 0) && nbr == BUF_SIZE)
 	{
 //		ft_putendl("while filltmp");
+		ft_memset(buf, 0, BUF_SIZE);
 		nbr = read(stock->fd, buf, BUF_SIZE);
 		if (nbr < BUF_SIZE)
 			stock->status = 0;
@@ -157,10 +182,10 @@ int				get_next_line(int const fd, char **line)
 	//ft_putendl(stock->str);
 	if (stock->status == -1)
 		return (stock->status);
-	bufcpy(line, stock);
+	bufcpy(line, stock, save);
 	// il faut mettre a jour str dans la liste chainee
 	// penser au cas ou on a copier plsr \n
-	if (fd == 0)
-		stock->status = 0;
+//	if (fd == 0)
+//		stock->status = 0;
 	return (stock->status);
 }
