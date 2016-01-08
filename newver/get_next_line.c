@@ -6,7 +6,7 @@
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 14:34:52 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/08 14:09:38 by tfolly           ###   ########.fr       */
+/*   Updated: 2016/01/08 17:26:09 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,8 +52,8 @@ static int			delstock(int fd, t_stock *stock)
 		if (stock->fd == fd)
 		{
 			save->next = stock->next;
-			if (stock->str)
-				ft_memdel((void**)&(stock->str));
+//			if (stock->str)
+//				ft_memdel((void**)&(stock->str));
 			ft_memdel((void**)&stock);
 			stock = save->next;
 		}
@@ -82,8 +82,11 @@ static int			bufcpy(char **line, t_stock *stock, t_stock *stock_save)
 	n = ((unsigned int)n > ft_strlen(tmp) + 1) ? ft_strlen(tmp) : n;
 	*line = ft_strndup(tmp, n);
 	save = tmp;
-	tmp += n;
-	stock->str = tmp + 1;
+	tmp += n + 1;
+	tmp = ft_strdup(tmp);
+	if (save)
+		ft_memdel((void**)&save);
+	stock->str = tmp;
 	if (!ft_strcmp(stock->str, ft_strdup("")) && !stock->status)
 		delstock(stock->fd, stock_save);
 	return (1);
@@ -95,9 +98,14 @@ static int			fill_tmp(t_stock *stock)
 	char	buf[BUF_SIZE];
 	int		nbr;
 	char	*save;
+	int		i;
 
+	if (!stock)
+		return (0);
+	i = 0;
 	nbr = BUF_SIZE;
 	tmp = stock->str;
+	save = tmp;
 	while ((!ft_strchr(tmp, '\n') || nbr == 0) && nbr == BUF_SIZE)
 	{
 		ft_memset(buf, 0, BUF_SIZE);
@@ -105,17 +113,27 @@ static int			fill_tmp(t_stock *stock)
 			return (nbr);
 		if (nbr < BUF_SIZE)
 			stock->status = 0;
-		save = tmp;
+//		save = tmp;
 		if (!(tmp = (char*)ft_memalloc(ft_strlen(tmp) + BUF_SIZE + 1)))
 			return (-1);
 		tmp = ft_strcpy(tmp, save);
 		tmp = ft_strcat(tmp, (const char*)buf);
 		tmp[ft_strlen(save) + nbr] = '\0';
+//		ft_putstr("save : ");
+//		ft_putendl(save);
+		if (save)// && i > 1)// && ft_strcmp(save, "") && ft_strcmp(save, "\n"))
+		{
+//			ft_putstr("i : ");
+//			ft_putnbr(i);
+//			ft_putendl("");
+//			ft_putendl(save);
+//			ft_memdel((void**)&save);
+		}
 		stock->str = tmp;
+		i++;
+		save = tmp;
 	}
-	if (nbr <= 0)
-		return ((nbr == 0) ? 0 : -1);
-	return (1);
+	return ((nbr <= 0) ? nbr : 1);
 }
 
 int					get_next_line(int const fd, char **line)

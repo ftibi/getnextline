@@ -6,13 +6,13 @@
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/08 13:53:54 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/08 13:54:17 by tfolly           ###   ########.fr       */
+/*   Updated: 2016/01/08 14:38:48 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #ifndef GET_NEXT_LINE_H
 # define GET_NEXT_LINE_H
-# define BUF_SIZE 10
+# define BUF_SIZE 4
 # include "libft.h"
 # include "fcntl.h"
 
