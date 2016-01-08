@@ -6,7 +6,7 @@
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 14:34:52 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/08 20:14:58 by tfolly           ###   ########.fr       */
+/*   Updated: 2016/01/08 21:10:50 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,31 +95,36 @@ static int			bufcpy(char **line, t_stock *stock, t_stock *stock_save)
 static int			fill_tmp(t_stock *stock)
 {
 	char	*tmp;
-	char	buf[BUF_SIZE];
+	char	buf[BUF_SIZE + 1];
 	int		nbr;
 	char	*save;
 	int		i;
+	int		len;
 
 	if (!stock)
 		return (0);
 	i = 0;
 	nbr = BUF_SIZE;
 	tmp = stock->str;
-	save = tmp;
+//	ft_putstr("tmp : ");
+//	ft_putendl(tmp);
+//	save = tmp;
 	while ((!ft_strchr(tmp, '\n') || nbr == 0) && nbr == BUF_SIZE)
 	{
-		ft_memset(buf, 0, BUF_SIZE);
+		ft_memset(buf, 0, BUF_SIZE + 1);
 		if ((nbr = read(stock->fd, buf, BUF_SIZE)) == -1)
 			return (nbr);
 		if (nbr < BUF_SIZE)
 			stock->status = 0;
-//		save = tmp;
-		if (!(tmp = (char*)ft_memalloc(ft_strlen(tmp) + BUF_SIZE + 1)))
+		save = tmp;
+		len = ft_strlen(tmp);
+		if (!(tmp = (char*)ft_memalloc(len + BUF_SIZE + 1)))
 			return (-1);
-		ft_putendl(tmp);
+		ft_memset(tmp, 0, len + BUF_SIZE + 1);
+	//	ft_putendl(save);
 		tmp = ft_strcpy(tmp, save);
 		tmp = ft_strcat(tmp, (const char*)buf);
-		tmp[ft_strlen(save) + nbr] = '\0';
+//		tmp[ft_strlen(save) + nbr] = '\0';
 //		ft_putstr("save : ");
 //		ft_putendl(save);
 		if (save)// && i > 1)// && ft_strcmp(save, "") && ft_strcmp(save, "\n"))
@@ -127,12 +132,13 @@ static int			fill_tmp(t_stock *stock)
 //			ft_putstr("i : ");
 //			ft_putnbr(i);
 //			ft_putendl("");
-			ft_putendl(save);
+//			ft_putendl("avant");
 			ft_memdel((void**)&save);
+//			ft_putendl("apres");
 		}
 		stock->str = tmp;
 		i++;
-		save = tmp;
+//		save = tmp;
 	}
 	return ((nbr <= 0) ? nbr : 1);
 }
