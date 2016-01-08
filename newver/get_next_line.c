@@ -6,7 +6,7 @@
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 14:34:52 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/08 17:26:09 by tfolly           ###   ########.fr       */
+/*   Updated: 2016/01/08 20:14:58 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ static int			delstock(int fd, t_stock *stock)
 			save->next = stock->next;
 //			if (stock->str)
 //				ft_memdel((void**)&(stock->str));
-			ft_memdel((void**)&stock);
+//			ft_memdel((void**)&stock);
 			stock = save->next;
 		}
 		else
@@ -84,8 +84,8 @@ static int			bufcpy(char **line, t_stock *stock, t_stock *stock_save)
 	save = tmp;
 	tmp += n + 1;
 	tmp = ft_strdup(tmp);
-	if (save)
-		ft_memdel((void**)&save);
+//	if (save)
+//		ft_memdel((void**)&save);
 	stock->str = tmp;
 	if (!ft_strcmp(stock->str, ft_strdup("")) && !stock->status)
 		delstock(stock->fd, stock_save);
@@ -116,6 +116,7 @@ static int			fill_tmp(t_stock *stock)
 //		save = tmp;
 		if (!(tmp = (char*)ft_memalloc(ft_strlen(tmp) + BUF_SIZE + 1)))
 			return (-1);
+		ft_putendl(tmp);
 		tmp = ft_strcpy(tmp, save);
 		tmp = ft_strcat(tmp, (const char*)buf);
 		tmp[ft_strlen(save) + nbr] = '\0';
@@ -126,8 +127,8 @@ static int			fill_tmp(t_stock *stock)
 //			ft_putstr("i : ");
 //			ft_putnbr(i);
 //			ft_putendl("");
-//			ft_putendl(save);
-//			ft_memdel((void**)&save);
+			ft_putendl(save);
+			ft_memdel((void**)&save);
 		}
 		stock->str = tmp;
 		i++;
