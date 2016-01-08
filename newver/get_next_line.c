@@ -95,23 +95,16 @@ static int			bufcpy(char **line, t_stock *stock, t_stock *stock_save)
 static int			fill_tmp(t_stock *stock)
 {
 	char	*tmp;
-	char	buf[BUF_SIZE + 1];
+	char	buf[BUF_SIZE];
 	int		nbr;
 	char	*save;
-	int		i;
 	int		len;
 
-	if (!stock)
-		return (0);
-	i = 0;
 	nbr = BUF_SIZE;
 	tmp = stock->str;
-//	ft_putstr("tmp : ");
-//	ft_putendl(tmp);
-//	save = tmp;
 	while ((!ft_strchr(tmp, '\n') || nbr == 0) && nbr == BUF_SIZE)
 	{
-		ft_memset(buf, 0, BUF_SIZE + 1);
+		ft_memset(buf, 0, BUF_SIZE);
 		if ((nbr = read(stock->fd, buf, BUF_SIZE)) == -1)
 			return (nbr);
 		if (nbr < BUF_SIZE)
@@ -120,25 +113,11 @@ static int			fill_tmp(t_stock *stock)
 		len = ft_strlen(tmp);
 		if (!(tmp = (char*)ft_memalloc(len + BUF_SIZE + 1)))
 			return (-1);
-		ft_memset(tmp, 0, len + BUF_SIZE + 1);
-	//	ft_putendl(save);
 		tmp = ft_strcpy(tmp, save);
-		tmp = ft_strcat(tmp, (const char*)buf);
-//		tmp[ft_strlen(save) + nbr] = '\0';
-//		ft_putstr("save : ");
-//		ft_putendl(save);
-		if (save)// && i > 1)// && ft_strcmp(save, "") && ft_strcmp(save, "\n"))
-		{
-//			ft_putstr("i : ");
-//			ft_putnbr(i);
-//			ft_putendl("");
-//			ft_putendl("avant");
+		tmp = ft_strncat(tmp, (const char*)buf, BUF_SIZE);
+		if (save)
 			ft_memdel((void**)&save);
-//			ft_putendl("apres");
-		}
 		stock->str = tmp;
-		i++;
-//		save = tmp;
 	}
 	return ((nbr <= 0) ? nbr : 1);
 }
