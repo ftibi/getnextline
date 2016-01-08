@@ -52,9 +52,9 @@ static int			delstock(int fd, t_stock *stock)
 		if (stock->fd == fd)
 		{
 			save->next = stock->next;
-//			if (stock->str)
-//				ft_memdel((void**)&(stock->str));
-//			ft_memdel((void**)&stock);
+			if (stock->str) //verifier que c bien utile
+				ft_memdel((void**)&(stock->str));
+			ft_memdel((void**)&stock);
 			stock = save->next;
 		}
 		else
