@@ -64,7 +64,8 @@ SRCS =	ft_atoi.c\
 		ft_lstdelfirst.c\
 		ft_lstdellast.c\
 		ft_lstfold.c\
-		ft_lstdelcmp.c
+		ft_lstdelcmp.c\
+		ft_strndup.c
 
 OBJS = $(SRCS:.c=.o)
 
@@ -94,6 +95,6 @@ norm :
 	norminette $(SRCS) libft.h
 
 maintest : all
-	gcc -Wall -Wextra -Werror main.c -I. libft.a
 	gcc main.c -I. libft.a 
+
 

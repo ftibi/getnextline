@@ -1,16 +1,29 @@
-#ifndef GET_NEXT_LINE
-# define GET_NEXT_LINE
-# define BUF_SIZE 32
-# define FD_SIZE 100
+/* ************************************************************************** */
+/*                                                                            */
+/*                                                        :::      ::::::::   */
+/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*                                                    +:+ +:+         +:+     */
+/*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
+/*                                                +#+#+#+#+#+   +#+           */
+/*   Created: 2016/01/08 13:53:54 by tfolly            #+#    #+#             */
+/*   Updated: 2016/01/08 20:45:16 by tfolly           ###   ########.fr       */
+/*                                                                            */
+/* ************************************************************************** */
+
+#ifndef GET_NEXT_LINE_H
+# define GET_NEXT_LINE_H
+# define BUF_SIZE 5
 # include "libft.h"
 # include "fcntl.h"
-int	get_next_line(int const fd, char **line);
 
-typedef struct		s_stock
+int						get_next_line(int const fd, char **line);
+
+typedef struct			s_stock
 {
-	int	fd[FD_SIZE];
-	char	stock[FD_SIZE][BUF_SIZE];
-	int	fin;
-}			t_stock;
+	char				*str;
+	int					fd;
+	int					status;
+	struct s_stock		*next;
+}						t_stock;
 
 #endif

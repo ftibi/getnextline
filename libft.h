@@ -88,4 +88,5 @@ void				ft_lstdellast(t_list **begin, void (*del)(void *, size_t));
 int					ft_lstfold(t_list *lst, int (*f)(void *, void *));
 void				ft_lstdelcmp(t_list **begin, void (*del)(void *, size_t),
 						int(cmp)(void *));
+char				*ft_strndup(const char *s1, size_t n);
 #endif
