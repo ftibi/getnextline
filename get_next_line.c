@@ -6,7 +6,7 @@
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 14:34:52 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/08 21:10:50 by tfolly           ###   ########.fr       */
+/*   Updated: 2016/01/10 10:56:56 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ static int			delstock(int fd, t_stock *stock)
 		if (stock->fd == fd)
 		{
 			save->next = stock->next;
-			if (stock->str) //verifier que c bien utile
+			if (stock->str)
 				ft_memdel((void**)&(stock->str));
 			ft_memdel((void**)&stock);
 			stock = save->next;
@@ -84,8 +84,6 @@ static int			bufcpy(char **line, t_stock *stock, t_stock *stock_save)
 	save = tmp;
 	tmp += n + 1;
 	tmp = ft_strdup(tmp);
-//	if (save)
-//		ft_memdel((void**)&save);
 	stock->str = tmp;
 	if (!ft_strcmp(stock->str, ft_strdup("")) && !stock->status)
 		delstock(stock->fd, stock_save);
@@ -98,7 +96,6 @@ static int			fill_tmp(t_stock *stock)
 	char	buf[BUF_SIZE];
 	int		nbr;
 	char	*save;
-	int		len;
 
 	nbr = BUF_SIZE;
 	tmp = stock->str;
@@ -110,8 +107,7 @@ static int			fill_tmp(t_stock *stock)
 		if (nbr < BUF_SIZE)
 			stock->status = 0;
 		save = tmp;
-		len = ft_strlen(tmp);
-		if (!(tmp = (char*)ft_memalloc(len + BUF_SIZE + 1)))
+		if (!(tmp = (char*)ft_memalloc(ft_strlen(tmp) + BUF_SIZE + 1)))
 			return (-1);
 		tmp = ft_strcpy(tmp, save);
 		tmp = ft_strncat(tmp, (const char*)buf, BUF_SIZE);
