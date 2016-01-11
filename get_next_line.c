@@ -6,7 +6,7 @@
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 14:34:52 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/10 10:56:56 by tfolly           ###   ########.fr       */
+/*   Updated: 2016/01/11 14:36:07 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ static int			fill_tmp(t_stock *stock)
 
 	nbr = BUF_SIZE;
 	tmp = stock->str;
-	while ((!ft_strchr(tmp, '\n') || nbr == 0) && nbr == BUF_SIZE)
+	while ((!ft_strchr(tmp, '\n') || nbr == 0) && nbr == BUF_SIZE) //rajouter une condition sur le statuts ?
 	{
 		ft_memset(buf, 0, BUF_SIZE);
 		if ((nbr = read(stock->fd, buf, BUF_SIZE)) == -1)
