@@ -20,6 +20,10 @@ int	main(int argc, char **argv)
 		ft_putnbr(get_next_line(fd, &line));
 		ft_putstr(" : ");
 		ft_putendl(line);
+		ft_putnbr(get_next_line(fd, &line));
+		ft_putstr(" : ");
+		ft_putendl(line);
+		
 		//	//fflush(stdout);
 		//	ft_putnbr(get_next_line(fd, &line));
 		//	//fflush(stdout);

@@ -6,7 +6,7 @@
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 14:34:52 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/12 19:39:21 by tfolly           ###   ########.fr       */
+/*   Updated: 2016/01/12 19:51:31 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,9 @@ static int			bufcpy(char **line, t_stock *stock, t_stock *stock_save)
 	int		n;
 	char	*save;
 	char	*tmp;
+	char	*cmp;
 
+	cmp = ft_strdup("");
 	if (!ft_strcmp(stock->str, ft_strdup("")))
 	{
 		*line = ft_strdup("");
@@ -85,8 +87,13 @@ static int			bufcpy(char **line, t_stock *stock, t_stock *stock_save)
 	tmp += n + 1;
 	tmp = ft_strdup(tmp);
 	stock->str = tmp;
-	if (!ft_strcmp(stock->str, ft_strdup("")) && !stock->status)
+	if (!ft_strcmp(stock->str, cmp) && !stock->status)
+	{
 		delstock(stock->fd, stock_save);
+		ft_strdel(&cmp);
+		return (0);
+	}
+	ft_strdel(&cmp);
 	if (!ft_strlen(tmp) && !stock->status)
 		return (0);
 	return (1);
