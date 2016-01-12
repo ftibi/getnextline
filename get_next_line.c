@@ -6,7 +6,7 @@
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 14:34:52 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/12 19:08:05 by tfolly           ###   ########.fr       */
+/*   Updated: 2016/01/12 19:39:21 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ static int			bufcpy(char **line, t_stock *stock, t_stock *stock_save)
 	stock->str = tmp;
 	if (!ft_strcmp(stock->str, ft_strdup("")) && !stock->status)
 		delstock(stock->fd, stock_save);
+	if (!ft_strlen(tmp) && !stock->status)
+		return (0);
 	return (1);
 }
 
@@ -133,6 +135,6 @@ int					get_next_line(int const fd, char **line)
 		stock->status = fill_tmp(stock);
 	if (stock->status == -1)
 		return (stock->status);
-	bufcpy(line, stock, save);
+	stock->status = bufcpy(line, stock, save);
 	return (stock->status);
 }
