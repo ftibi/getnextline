@@ -1,29 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_memcmp.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/08 13:53:54 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/08 20:45:16 by tfolly           ###   ########.fr       */
+/*   Created: 2015/11/28 16:28:01 by tfolly            #+#    #+#             */
+/*   Updated: 2015/12/05 13:49:50 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# define BUF_SIZE 2
-# include "libft.h"
-# include "fcntl.h"
+#include "libft.h"
 
-int						get_next_line(int const fd, char **line);
-
-typedef struct			s_stock
+int	ft_memcmp(const void *s1, const void *s2, size_t n)
 {
-	char				*str;
-	int					fd;
-	int					status;
-	struct s_stock		*next;
-}						t_stock;
+	size_t				i;
+	unsigned char		*s11;
+	unsigned char		*s22;
 
-#endif
+	if (n == 0)
+		return (0);
+	i = 0;
+	s11 = (unsigned char*)s1;
+	s22 = (unsigned char*)s2;
+	while (i < n)
+	{
+		if (*s11 != *s22)
+			return (*s11 - *s22);
+		s11++;
+		s22++;
+		i++;
+	}
+	return (0);
+}

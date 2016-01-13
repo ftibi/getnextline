@@ -1,29 +1,34 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_putnbr.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/08 13:53:54 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/08 20:45:16 by tfolly           ###   ########.fr       */
+/*   Created: 2015/11/24 14:35:26 by tfolly            #+#    #+#             */
+/*   Updated: 2015/12/05 14:11:16 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# define BUF_SIZE 2
-# include "libft.h"
-# include "fcntl.h"
+#include "libft.h"
 
-int						get_next_line(int const fd, char **line);
-
-typedef struct			s_stock
+void	ft_putnbr(int nb)
 {
-	char				*str;
-	int					fd;
-	int					status;
-	struct s_stock		*next;
-}						t_stock;
+	unsigned int n;
 
-#endif
+	n = nb;
+	if (nb < 0)
+	{
+		n = -1 * nb;
+		ft_putchar('-');
+	}
+	if (n >= 10)
+	{
+		ft_putnbr(n / 10);
+		ft_putnbr(n % 10);
+	}
+	else
+	{
+		ft_putchar('0' + n);
+	}
+}

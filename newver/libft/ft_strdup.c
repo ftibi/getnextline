@@ -1,29 +1,32 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strdup.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/08 13:53:54 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/08 20:45:16 by tfolly           ###   ########.fr       */
+/*   Created: 2015/11/25 17:30:31 by tfolly            #+#    #+#             */
+/*   Updated: 2015/12/10 15:02:01 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# define BUF_SIZE 2
-# include "libft.h"
-# include "fcntl.h"
+#include "libft.h"
 
-int						get_next_line(int const fd, char **line);
-
-typedef struct			s_stock
+char	*ft_strdup(const char *s1)
 {
-	char				*str;
-	int					fd;
-	int					status;
-	struct s_stock		*next;
-}						t_stock;
+	char	*resp;
+	char	*save;
 
-#endif
+	resp = (char*)malloc(sizeof(char) * ft_strlen(s1) + 1);
+	if (!resp)
+		return (NULL);
+	save = resp;
+	while (*s1)
+	{
+		*resp = *s1;
+		resp++;
+		s1++;
+	}
+	*resp = *s1;
+	return (save);
+}

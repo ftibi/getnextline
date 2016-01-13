@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strrchr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/08 13:53:54 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/08 20:45:16 by tfolly           ###   ########.fr       */
+/*   Created: 2015/11/26 17:30:36 by tfolly            #+#    #+#             */
+/*   Updated: 2015/12/05 15:25:48 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# define BUF_SIZE 2
-# include "libft.h"
-# include "fcntl.h"
+#include "libft.h"
 
-int						get_next_line(int const fd, char **line);
-
-typedef struct			s_stock
+char	*ft_strrchr(char const *str, int c)
 {
-	char				*str;
-	int					fd;
-	int					status;
-	struct s_stock		*next;
-}						t_stock;
+	char *save;
+	char *parse;
 
-#endif
+	save = NULL;
+	parse = (char*)str;
+	while (*parse)
+	{
+		if (*parse == (char)c)
+			save = parse;
+		parse++;
+	}
+	if (c == 0)
+		return (parse);
+	return (save);
+}

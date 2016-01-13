@@ -1,29 +1,40 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strnequ.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/08 13:53:54 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/08 20:45:16 by tfolly           ###   ########.fr       */
+/*   Created: 2015/11/25 15:16:46 by tfolly            #+#    #+#             */
+/*   Updated: 2015/12/05 15:19:50 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# define BUF_SIZE 2
-# include "libft.h"
-# include "fcntl.h"
+#include "libft.h"
 
-int						get_next_line(int const fd, char **line);
-
-typedef struct			s_stock
+int	ft_strnequ(char const *s1, char const *s2, size_t n)
 {
-	char				*str;
-	int					fd;
-	int					status;
-	struct s_stock		*next;
-}						t_stock;
+	size_t	j;
 
-#endif
+	if (s1 && s2)
+	{
+		j = 0;
+		if (n == 0)
+			return (1);
+		while (j < n && *s1)
+		{
+			if (*s1 == *s2)
+			{
+				s1++;
+				s2++;
+				j++;
+			}
+			else
+			{
+				return (0);
+			}
+		}
+		return ((*s1 == *s2 || j == n) ? 1 : 0);
+	}
+	return (0);
+}

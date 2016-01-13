@@ -1,29 +1,31 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_strnstr.c                                       :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/08 13:53:54 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/08 20:45:16 by tfolly           ###   ########.fr       */
+/*   Created: 2015/11/26 18:18:19 by tfolly            #+#    #+#             */
+/*   Updated: 2015/12/10 15:36:22 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# define BUF_SIZE 2
-# include "libft.h"
-# include "fcntl.h"
+#include "libft.h"
 
-int						get_next_line(int const fd, char **line);
-
-typedef struct			s_stock
+char	*ft_strnstr(const char *s1, const char *s2, size_t n)
 {
-	char				*str;
-	int					fd;
-	int					status;
-	struct s_stock		*next;
-}						t_stock;
+	char			*s1cpy;
+	unsigned char	index;
 
-#endif
+	s1cpy = ft_strdup(s1);
+	if (n < ft_strlen(s1) + 1)
+	{
+		s1cpy[n] = '\0';
+	}
+	if (ft_strstr(s1cpy, s2))
+	{
+		index = ft_strlen(s1cpy) - ft_strlen(ft_strstr(s1cpy, s2));
+		return ((char*)(s1 + index));
+	}
+	return (NULL);
+}

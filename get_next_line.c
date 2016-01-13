@@ -56,6 +56,7 @@ static int			delstock(int fd, t_stock *stock)
 				ft_memdel((void**)&(stock->str));
 			ft_memdel((void**)&stock);
 			stock = save->next;
+			return (1);
 		}
 		else
 		{
@@ -63,7 +64,7 @@ static int			delstock(int fd, t_stock *stock)
 			stock = stock->next;
 		}
 	}
-	return (1);
+	return (0);
 }
 
 static int			bufcpy(char **line, t_stock *stock, t_stock *stock_save)
@@ -71,14 +72,12 @@ static int			bufcpy(char **line, t_stock *stock, t_stock *stock_save)
 	int		n;
 	char	*save;
 	char	*tmp;
-	char	*cmp;
 
-	cmp = ft_strdup("");
-	if (!ft_strcmp(stock->str, ft_strdup("")))
-	{
-		*line = ft_strdup("");
-		return (0);
-	}
+//	if (!ft_strcmp(stock->str, ft_strdup("")))
+//	{
+//		*line = ft_strdup("");
+//		return (0);
+//	}
 	tmp = stock->str;
 	n = (int)(ft_strchr(tmp, '\n') - tmp);
 	n = ((unsigned int)n > ft_strlen(tmp) + 1) ? ft_strlen(tmp) : n;
@@ -87,15 +86,11 @@ static int			bufcpy(char **line, t_stock *stock, t_stock *stock_save)
 	tmp += n + 1;
 	tmp = ft_strdup(tmp);
 	stock->str = tmp;
-	if (!ft_strcmp(stock->str, cmp) && !stock->status)
+	if (!ft_strlen(tmp) && !stock->status)
 	{
 		delstock(stock->fd, stock_save);
-		ft_strdel(&cmp);
 		return (0);
 	}
-	ft_strdel(&cmp);
-	if (!ft_strlen(tmp) && !stock->status)
-		return (0);
 	return (1);
 }
 

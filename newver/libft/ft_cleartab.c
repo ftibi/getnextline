@@ -1,29 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   get_next_line.h                                    :+:      :+:    :+:   */
+/*   ft_cleartab.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2016/01/08 13:53:54 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/08 20:45:16 by tfolly           ###   ########.fr       */
+/*   Created: 2015/12/05 16:32:24 by tfolly            #+#    #+#             */
+/*   Updated: 2015/12/05 17:01:10 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#ifndef GET_NEXT_LINE_H
-# define GET_NEXT_LINE_H
-# define BUF_SIZE 2
-# include "libft.h"
-# include "fcntl.h"
+#include "libft.h"
 
-int						get_next_line(int const fd, char **line);
+//libere la memoire d un tableau et ses pointeurs a 0
 
-typedef struct			s_stock
+void	ft_cleartab(void **tab, size_t size)
 {
-	char				*str;
-	int					fd;
-	int					status;
-	struct s_stock		*next;
-}						t_stock;
+	size_t	i;
+	void	*save;
+	void	*tmp;
 
-#endif
+	i = 0;
+	tmp = *tab;
+	while (i < size)
+	{
+		save = tmp;
+		ft_strdel(tmp);
+		i++;
+		if (i < size)
+			tmp = save + 1;
+	}
+	ft_memdel(tab);
+	tab = NULL;
+}
