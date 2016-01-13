@@ -6,7 +6,7 @@
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 14:34:52 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/13 19:46:03 by tfolly           ###   ########.fr       */
+/*   Updated: 2016/01/13 19:50:37 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -127,7 +127,6 @@ int					get_next_line(int const fd, char **line)
 	stock = save;
 	if (!(stock = check_fd(fd, stock, &save)))
 		return (-1);
-	ft_strchr(stock->str, '\n');
 	if (!(ft_strchr(stock->str, '\n')))
 		stock->status = fill_tmp(stock);
 	if (stock->status == -1)
