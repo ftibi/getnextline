@@ -6,7 +6,7 @@
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 17:44:17 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/05 17:48:04 by tfolly           ###   ########.fr       */
+/*   Updated: 2016/01/13 16:14:01 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,8 +14,8 @@
 
 char	*ft_strndup(const char *s1, size_t n)
 {
-	char	*resp;
-	char	*save;
+	char		*resp;
+	char		*save;
 	size_t		i;
 
 	resp = (char*)ft_memalloc(n + 1);
