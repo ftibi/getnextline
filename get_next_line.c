@@ -6,7 +6,7 @@
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 14:34:52 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/13 15:45:01 by tfolly           ###   ########.fr       */
+/*   Updated: 2016/01/13 19:46:03 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,24 +92,24 @@ static int			bufcpy(char **line, t_stock *stock, t_stock *stock_save)
 static int			fill_tmp(t_stock *stock)
 {
 	char	*tmp;
-	char	buf[BUF_SIZE];
+	char	buf[BUFF_SIZE];
 	int		nbr;
 	char	*save;
 
-	nbr = BUF_SIZE;
+	nbr = BUFF_SIZE;
 	tmp = stock->str;
-	while ((!ft_strchr(tmp, '\n') || nbr == 0) && nbr == BUF_SIZE)
+	while ((!ft_strchr(tmp, '\n') || nbr == 0) && nbr == BUFF_SIZE)
 	{
-		ft_memset(buf, 0, BUF_SIZE);
-		if ((nbr = read(stock->fd, buf, BUF_SIZE)) == -1)
+		ft_memset(buf, 0, BUFF_SIZE);
+		if ((nbr = read(stock->fd, buf, BUFF_SIZE)) == -1)
 			return (nbr);
-		if (nbr < BUF_SIZE)
+		if (nbr < BUFF_SIZE)
 			stock->status = 0;
 		save = tmp;
-		if (!(tmp = (char*)ft_memalloc(ft_strlen(tmp) + BUF_SIZE + 1)))
+		if (!(tmp = (char*)ft_memalloc(ft_strlen(tmp) + BUFF_SIZE + 1)))
 			return (-1);
 		tmp = ft_strcpy(tmp, save);
-		tmp = ft_strncat(tmp, (const char*)buf, BUF_SIZE);
+		tmp = ft_strncat(tmp, (const char*)buf, BUFF_SIZE);
 		if (save)
 			ft_memdel((void**)&save);
 		stock->str = tmp;
