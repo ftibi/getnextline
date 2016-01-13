@@ -6,7 +6,7 @@
 /*   By: tfolly <marvin@42.fr>                      +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/05 14:34:52 by tfolly            #+#    #+#             */
-/*   Updated: 2016/01/12 19:51:31 by tfolly           ###   ########.fr       */
+/*   Updated: 2016/01/13 15:45:01 by tfolly           ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,11 +73,6 @@ static int			bufcpy(char **line, t_stock *stock, t_stock *stock_save)
 	char	*save;
 	char	*tmp;
 
-//	if (!ft_strcmp(stock->str, ft_strdup("")))
-//	{
-//		*line = ft_strdup("");
-//		return (0);
-//	}
 	tmp = stock->str;
 	n = (int)(ft_strchr(tmp, '\n') - tmp);
 	n = ((unsigned int)n > ft_strlen(tmp) + 1) ? ft_strlen(tmp) : n;
@@ -103,7 +98,7 @@ static int			fill_tmp(t_stock *stock)
 
 	nbr = BUF_SIZE;
 	tmp = stock->str;
-	while ((!ft_strchr(tmp, '\n') || nbr == 0) && nbr == BUF_SIZE) //rajouter une condition sur le statuts ?
+	while ((!ft_strchr(tmp, '\n') || nbr == 0) && nbr == BUF_SIZE)
 	{
 		ft_memset(buf, 0, BUF_SIZE);
 		if ((nbr = read(stock->fd, buf, BUF_SIZE)) == -1)
